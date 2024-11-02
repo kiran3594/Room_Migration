@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.fir.resolve.calls.ResolvedCallArgument.DefaultArgument.arguments
-import org.jetbrains.kotlin.resolve.calls.model.ResolvedCallArgument.DefaultArgument.arguments
-
 
 plugins {
     alias(libs.plugins.android.application)
@@ -30,6 +27,11 @@ android {
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
+    }
+
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
 
     buildTypes {
@@ -74,6 +76,10 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+    androidTestImplementation(libs.androidx.room.testing)
+
+    //Truth
+    androidTestImplementation(libs.truth)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
