@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
             applicationContext,
             UsersDatabase::class.java,
             "users.db"
-        ).build()
+        ).addMigrations(UsersDatabase.migration3To4).build()
 
         //Insert Users in Room database
 //        (1..10).forEach() {
@@ -33,7 +33,26 @@ class MainActivity : AppCompatActivity() {
         //fetch Users in database
         lifecycleScope.launch {
             db.dao.getUsers().forEach {
-                Log.d("MainActivity","$it")
+                Log.d("MainActivity", "$it")
+            }
+        }
+
+
+        //Insert Schools in Room database
+//        (1..10).forEach() {
+//            lifecycleScope.launch {
+//                db.schoolsDao.insertSchools(
+//                    Schools(
+//                        name = "test$it"
+//                    )
+//                )
+//            }
+//        }
+
+        //fetch Schools in database
+        lifecycleScope.launch {
+            db.schoolsDao.getSchools().forEach {
+                Log.d("MainActivity", "$it")
             }
         }
     }
